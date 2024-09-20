@@ -12,6 +12,12 @@ p {
     margin-left: 1em;
 }
 
+pre {
+    margin: 1em;
+    padding: 1em;
+    background-color: #F0F0FF;
+}
+
 .copyright {
     color: gray;
     text-align: center;
