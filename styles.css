@@ -1,8 +1,18 @@
 
 h1 {
-    color: blue;
+    color: #000066;
+    border-left: solid 7px #343F91;
+    border-bottom: 2px solid #343F91;
+    background-image: linear-gradient(#DDDDE6 0%, #FDFDFF 100%);
+    padding: 10px 0 0 10px;
+    margin: 0 0 8px 0;
+}
+
+p {
+    margin-left: 1em;
 }
 
 .copyright {
     color: gray;
+    text-align: center;
 }
