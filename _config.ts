@@ -2,6 +2,6 @@ import lume from "lume/mod.ts";
 
 const site = lume();
 
-site.copy("/style.css");
+site.copy("/styles.css");
 
 export default site;
