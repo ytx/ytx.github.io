@@ -66,7 +66,17 @@ GUIを使わずに、コマンドのみで実現する方法を調査し、検�
 1~2の結果を組み立てる。
 
 - Gitlab : Pipelines / Jobs
-    - [document](https://docs.gitlab.com)
 - Github : Workflow / Jobs / Actions
-    - [document](https://docs.github.com)
+
+---
+
+## references
+
+- [Gitlab Documents](https://docs.gitlab.com)
+- [Github Documents](https://docs.github.com)
+    - [GitHub ActionsでSSHを使う](https://qiita.com/shimataro999/items/b05a251c93fe6843cc16)
+- [Docker Documents](https://docs.docker.com/manuals/)
+- [Ansible Documents](https://docs.ansible.com/ansible/latest/index.html)
+- [Selenium Documents](https://www.selenium.dev/documentation/)
+- [Cypress Documents](https://docs.cypress.io/guides/overview/why-cypress)
 
