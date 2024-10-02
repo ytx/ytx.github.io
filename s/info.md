@@ -1,6 +1,7 @@
 ## shortcut
 - vscode-memo : New ⌘M, List ⇧⌘M, Grep ^⌘M
 - macOS : Lock ^⌘Q, ForceQuit ALT⌘ESC
+- screen : ScrollMode ^A ESC, ExitScrollMode ESC
 
 ## documents
 - vscode-memo : main
