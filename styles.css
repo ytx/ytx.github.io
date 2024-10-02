@@ -1,11 +1,20 @@
 
+body {
+    background-color: #15202B;
+    color: white;
+}
+
 h1 {
-    color: #000066;
-    border-left: solid 7px #343F91;
-    border-bottom: 2px solid #343F91;
-    background-image: linear-gradient(#DDDDE6 0%, #FDFDFF 100%);
+    color: white;
+    border-left: solid 7px lightgray;
+    border-bottom: 2px solid lightgray;
+    background-image: linear-gradient(gray 0%, #15202B 100%);
     padding: 10px 0 0 10px;
     margin: 0 0 8px 0;
+}
+
+a {
+    color: lightblue;
 }
 
 p {
@@ -15,7 +24,8 @@ p {
 pre {
     margin: 1em;
     padding: 1em;
-    background-color: #F0F0FF;
+    background-color: #192734;
+    color: #8899A6;
 }
 
 .copyright {
