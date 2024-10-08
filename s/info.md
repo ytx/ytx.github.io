@@ -8,4 +8,5 @@
 - evernote : web capture
 
 ## misc
+- css(margin/padding): 2 -> top+bottom,left+right, 4 -> top,right,bottom,left
 - < : 小なり、> : 大なり
