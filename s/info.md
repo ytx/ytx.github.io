@@ -2,6 +2,7 @@
 - vscode-memo : New ⌘M, List ⇧⌘M, Grep ^⌘M
 - macOS : Lock ^⌘Q, ForceQuit ALT⌘ESC
 - screen : ScrollMode ^A ESC, ExitScrollMode ESC
+- Google/Youtube : ListShortCut ⇧/
 
 ## documents
 - vscode-memo : main
