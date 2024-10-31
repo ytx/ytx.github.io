@@ -10,22 +10,22 @@ title: CI/CDワークフロー／パイプラインの構築
 
 #### github-flow
 - pull request (feature* -> main)
-- marge (feature* -> main)
+- merge (feature* -> main)
 - release (main -> release*)
 - timer / ad hoc
 
 #### git-flow
 - pull request (feature* -> develop)
-- marge (feature* -> develop)
+- merge (feature* -> develop)
 - pull request (develop -> main)
-- marge (develop -> main)
+- merge (develop -> main)
 - release (main -> release*)
 - timer / ad hoc
 
 #### as text
 - push to develop
 - pull request (develop -> main)
-- marge (develop -> main)
+- merge (develop -> main)
 - timer / ad hoc
 
 ### 1.2. 実施したいことを洗い出す（例）
