@@ -132,7 +132,7 @@ GUIを使わずに、コマンドのみで実現する方法を調査し、検�
 
 - [Gitlab Documents](https://docs.gitlab.com)
 - [Github Documents](https://docs.github.com)
-    - [GitHub ActionsでSSHを使う](https://qiita.com/shimataro999/items/b05a251c93fe6843cc16)
+    - [GitHub ActionsでSSHを使う](https://github.com/marketplace/actions/install-ssh-key)
 - [Docker Documents](https://docs.docker.com/manuals/)
 - [Ansible Documents](https://docs.ansible.com/ansible/latest/index.html)
 - [Selenium Documents](https://www.selenium.dev/documentation/)
