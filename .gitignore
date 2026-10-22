@@ -1,6 +1,5 @@
-_site
-_cache
+node_modules/
+dist/
+.astro/
 .DS_Store
-deno.lock
-.superpowers
-.claude/worktrees/
+.superpowers/

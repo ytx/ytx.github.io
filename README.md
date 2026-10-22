@@ -1,19 +1,12 @@
-
 # ytx.github.io
 
-This site is my personal site, not for everyone.
+作品の紹介と日英ブログを載せた、ytx の個人サイト（Astro 製の静的サイト）。
 
-Using [lume](https://lume.land/) to process files.
+## コマンド
 
-## contents
-- f : files for my lectures
+- `npm run dev` : 開発サーバーを起動
+- `npm run build` : `dist/` に静的サイトを生成
+- `npm run test` : ユニットテストを実行
+- `npm run test:build` : ビルドしてからビルド成果物のテストを実行
 
-## edit/preview at local
-```
-deno task lume --serve
-```
-
-## references
-- https://lume.land/docs/overview/about-lume/
-- https://docs.github.com/ja/pages/getting-started-with-github-pages/about-github-pages
-- https://zenn.dev/monicle/articles/94f815e15eca87
+記事と作品の追加方法は Task 3 完了後に追記する。
