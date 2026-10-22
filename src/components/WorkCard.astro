@@ -1,0 +1,88 @@
+---
+import { Image } from "astro:assets";
+import { t, type Lang } from "../i18n";
+import { workUrl } from "../lib/urls";
+import type { Work } from "../lib/works-core";
+
+interface Props {
+  lang: Lang;
+  work: Work;
+}
+const { lang, work } = Astro.props;
+const { data, slug, children, translated } = work;
+const typeLabel = data.type === "app" ? "App" : data.type === "web" ? "Web" : undefined;
+const pagesLabel = children.length > 0 ? t(lang, "works.pages").replace("{n}", String(children.length)) : undefined;
+const untranslated = !translated && lang !== "ja";
+---
+<a class="work-card" href={workUrl(lang, slug)}>
+  <div class="thumb">
+    {data.thumbnail && <Image src={data.thumbnail} alt="" width={640} height={360} />}
+  </div>
+  <div class="body">
+    <div class="badges">
+      {typeLabel && <span class="badge badge-type">{typeLabel}</span>}
+      {pagesLabel && <span class="badge badge-pages">{pagesLabel}</span>}
+      {untranslated && <span class="badge badge-untranslated">{t(lang, "untranslated.badge")}</span>}
+    </div>
+    <h3>{data.title}</h3>
+    <p>{data.summary}</p>
+  </div>
+</a>
+<style>
+  .work-card {
+    display: block;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .work-card:hover {
+    transform: translateY(-2px);
+  }
+  .thumb {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--hero-bg);
+  }
+  .thumb :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .body {
+    padding: 16px 18px 20px;
+  }
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .badge {
+    padding: 2px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    background: var(--hero-bg);
+    color: var(--text);
+  }
+  .badge-type {
+    background: var(--accent);
+    color: var(--surface);
+  }
+  .badge-untranslated {
+    color: var(--text-muted);
+  }
+  h3 {
+    margin: 0 0 6px;
+    font-size: 1.05rem;
+  }
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+</style>
