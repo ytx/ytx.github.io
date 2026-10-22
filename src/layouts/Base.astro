@@ -1,0 +1,43 @@
+---
+import { Font } from "astro:assets";
+import "../styles/global.css";
+import { otherLang, type Lang } from "../i18n";
+import { homeUrl, rssUrl } from "../lib/urls";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+  alternate?: string;
+  ogImage?: string;
+}
+const { lang, title, description, alternate = homeUrl(otherLang(lang)) } = Astro.props;
+const site = Astro.site ?? new URL("https://ytx.github.io");
+const here = Astro.url.pathname;
+const jaPath = lang === "ja" ? here : alternate;
+const enPath = lang === "en" ? here : alternate;
+const jaHref = new URL(jaPath, site).href;
+const enHref = new URL(enPath, site).href;
+---
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} | ytx</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="alternate" hreflang="ja" href={jaHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={jaHref} />
+    <link rel="alternate" type="application/rss+xml" href={rssUrl(lang)} />
+    <Font cssVariable="--font-zen-maru" preload />
+  </head>
+  <body>
+    <Header lang={lang} alternate={alternate} />
+    <main>
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

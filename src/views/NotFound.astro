@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import { t, otherLang, type Lang } from "../i18n";
+import { homeUrl } from "../lib/urls";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+<Base lang={lang} title={t(lang, "notfound.title")} alternate={homeUrl(otherLang(lang))}>
+  <div class="container nf">
+    <h1>{t(lang, "notfound.title")}</h1>
+    <p><a href={homeUrl(lang)}>{t(lang, "notfound.back")}</a></p>
+  </div>
+</Base>
+<style>
+  .nf {
+    padding: 64px 16px;
+    text-align: center;
+  }
+</style>

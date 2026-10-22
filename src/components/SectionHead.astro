@@ -1,0 +1,42 @@
+---
+interface Props {
+  title: string;
+  sub?: string;
+  moreHref?: string;
+  moreLabel?: string;
+}
+const { title, sub, moreHref, moreLabel } = Astro.props;
+---
+<div class="section-head">
+  <div>
+    <h2>{title}</h2>
+    {sub && <p class="sub">{sub}</p>}
+  </div>
+  {moreHref && <a class="more" href={moreHref}>{moreLabel}</a>}
+</div>
+<style>
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin: 40px 0 16px;
+  }
+  h2 {
+    display: inline-block;
+    margin: 0;
+    padding-bottom: 0.15em;
+    border-bottom: 2px solid rgba(201, 116, 79, 0.3);
+    font-size: 1.4rem;
+    line-height: 1.5;
+  }
+  .sub {
+    margin: 4px 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .more {
+    white-space: nowrap;
+    font-size: 0.9rem;
+  }
+</style>

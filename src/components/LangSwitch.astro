@@ -1,0 +1,24 @@
+---
+import { t, type Lang } from "../i18n";
+interface Props {
+  lang: Lang;
+  alternate: string;
+}
+const { lang, alternate } = Astro.props;
+---
+<a class="lang-switch" href={alternate}>{t(lang, "lang.switch")}</a>
+<style>
+  .lang-switch {
+    display: inline-block;
+    padding: 0.15em 0.9em;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    color: var(--accent);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+  .lang-switch:hover {
+    background: var(--hero-bg);
+  }
+</style>

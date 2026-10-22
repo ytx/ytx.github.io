@@ -1,0 +1,84 @@
+@import "./tokens.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+a {
+  color: var(--accent);
+}
+a:hover {
+  text-decoration-thickness: 2px;
+}
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+.prose h2 {
+  margin: 2.2em 0 0.8em;
+  padding-bottom: 0.3em;
+  border-bottom: 2px solid rgba(201, 116, 79, 0.25);
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+.prose h3 {
+  margin: 1.8em 0 0.6em;
+  font-size: 1.15rem;
+  line-height: 1.5;
+}
+.prose h3::before {
+  content: "";
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-right: 0.5em;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 0.1em;
+}
+.prose pre {
+  overflow-x: auto;
+  padding: 1em 1.2em;
+  border-radius: var(--radius);
+  background: #f6efe6;
+  line-height: 1.6;
+}
+.prose code {
+  font-size: 0.9em;
+}
+.prose :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border-radius: 6px;
+  background: #f6efe6;
+}
+.prose img {
+  border-radius: var(--radius);
+}
+.prose table {
+  display: block;
+  overflow-x: auto;
+  border-collapse: collapse;
+}

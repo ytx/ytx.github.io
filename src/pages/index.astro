@@ -1,1 +1,9 @@
-<html lang="ja"><body><h1>ytx</h1></body></html>
+---
+import Base from "../layouts/Base.astro";
+import { t } from "../i18n";
+---
+<Base lang="ja" title="ytx" alternate="/en/">
+  <div class="container">
+    <h1>{t("ja", "siteName")}</h1>
+  </div>
+</Base>

@@ -1,0 +1,61 @@
+---
+import { t, type Lang } from "../i18n";
+import { homeUrl, worksUrl, blogUrl, aboutUrl } from "../lib/urls";
+import LangSwitch from "./LangSwitch.astro";
+interface Props {
+  lang: Lang;
+  alternate: string;
+}
+const { lang, alternate } = Astro.props;
+const path = Astro.url.pathname;
+const links = [
+  { href: worksUrl(lang), label: t(lang, "nav.works") },
+  { href: blogUrl(lang), label: t(lang, "nav.blog") },
+  { href: aboutUrl(lang), label: t(lang, "nav.about") },
+];
+---
+<header class="site-header">
+  <div class="container bar">
+    <a class="site-name" href={homeUrl(lang)}>{t(lang, "siteName")}</a>
+    <nav class="nav">
+      {links.map((l) => (
+        <a href={l.href} aria-current={path.startsWith(l.href) ? "page" : undefined}>{l.label}</a>
+      ))}
+      <LangSwitch lang={lang} alternate={alternate} />
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header {
+    padding: 14px 0;
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+  }
+  .site-name {
+    color: var(--text);
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+  }
+  .nav a:not(.lang-switch) {
+    padding: 0.1em 0.8em;
+    border-radius: var(--radius-pill);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav a[aria-current="page"] {
+    background: var(--hero-bg);
+    color: var(--accent);
+  }
+</style>
