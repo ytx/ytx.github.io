@@ -3,6 +3,7 @@ title: 車のはなし
 description: 車カテゴリの記事のサンプル
 category: car
 published: 2026-02-05
+draft: true
 ---
 
 ダミーの段落 1 です。ここに本文が入ります。あとで書き直します。

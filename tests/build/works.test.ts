@@ -13,8 +13,9 @@ test("parent work shows children", () => {
   const h = read("works/simplepages/index.html");
   expect(h).toContain("/works/l-timer/");
   expect(h).toContain("使ってみる");
-  expect(h).toContain("/blog/howto/simplepages-howto/");
 });
+test.skipIf(!fs.existsSync("dist/blog/howto/simplepages-howto/index.html"))("parent work lists how-to posts", () =>
+  expect(read("works/simplepages/index.html")).toContain("/blog/howto/simplepages-howto/"));
 test("child work has breadcrumb to parent", () =>
   expect(read("works/l-timer/index.html")).toContain('href="/works/simplepages/"'));
 test("web work uses visit label", () =>

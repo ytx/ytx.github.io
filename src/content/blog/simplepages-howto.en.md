@@ -4,6 +4,7 @@ description: A how-to article for simplePages
 category: howto
 work: simplepages
 published: 2026-05-25
+draft: true
 ---
 
 This is a placeholder paragraph.

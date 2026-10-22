@@ -10,8 +10,10 @@ test("about pages", () => {
 });
 test("rss both languages", () => {
   expect(read("rss.xml")).toContain("<language>ja</language>");
-  expect(read("en/rss.xml")).toContain("/en/blog/howto/simplepages-howto/");
+  expect(read("en/rss.xml")).toContain("<language>en</language>");
 });
+test.skipIf(!fs.existsSync("dist/en/blog/howto/simplepages-howto/index.html"))("en rss lists posts", () =>
+  expect(read("en/rss.xml")).toContain("/en/blog/howto/simplepages-howto/"));
 test("sitemap has alternates", () => {
   const s = read("sitemap-0.xml");
   expect(s).toContain('hreflang="en"');
