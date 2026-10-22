@@ -1,0 +1,68 @@
+---
+import PostCard from "./PostCard.astro";
+import { categoryName, parents } from "../data/categories";
+import { t, type Lang } from "../i18n";
+import type { Post } from "../lib/posts-core";
+
+interface Props {
+  lang: Lang;
+  groups: Record<string, Post[]>;
+  all: Post[];
+}
+const { lang, groups, all } = Astro.props;
+const slugs = parents().map((p) => p.slug).filter((s) => s in groups);
+---
+<div class="pills" role="group">
+  <button type="button" class="pill" data-target="all" aria-pressed="true">{t(lang, "blog.allPill")}</button>
+  {slugs.map((slug) => (
+    <button type="button" class="pill" data-target={slug} aria-pressed="false">{categoryName(slug, lang)}</button>
+  ))}
+</div>
+<div class="group grid" data-group="all">
+  {all.map((post) => <PostCard lang={lang} post={post} />)}
+</div>
+{slugs.map((slug) => (
+  <div class="group grid" data-group={slug} hidden>
+    {groups[slug].map((post) => <PostCard lang={lang} post={post} />)}
+  </div>
+))}
+<style>
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .pill {
+    padding: 6px 16px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .pill[aria-pressed="true"] {
+    background: var(--accent);
+    color: var(--surface);
+  }
+  .group[hidden] {
+    display: none;
+  }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>(".pills").forEach((row) => {
+    const pills = Array.from(row.querySelectorAll<HTMLButtonElement>(".pill"));
+    const groups = Array.from(document.querySelectorAll<HTMLElement>("[data-group]"));
+    pills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        pills.forEach((p) => p.setAttribute("aria-pressed", String(p === pill)));
+        groups.forEach((g) => {
+          g.hidden = g.dataset.group !== pill.dataset.target;
+        });
+      });
+    });
+  });
+</script>

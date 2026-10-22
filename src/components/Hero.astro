@@ -1,0 +1,220 @@
+---
+import { Image } from "astro:assets";
+import YouTube from "./YouTube.astro";
+import { t, type Lang } from "../i18n";
+import { workUrl } from "../lib/urls";
+import type { Work } from "../lib/works-core";
+
+interface Props {
+  lang: Lang;
+  works: Work[];
+}
+const { lang, works } = Astro.props;
+const multi = works.length > 1;
+---
+<section class="hero" data-hero={multi ? "" : undefined}>
+  <div class="slides">
+    {works.map((work, i) => {
+      const { data, slug } = work;
+      return (
+        <article class={`slide${i === 0 ? " is-current" : ""}`} aria-hidden={i === 0 ? undefined : "true"} inert={i !== 0}>
+          <div class="media">
+            {data.youtube ? (
+              <YouTube id={data.youtube} title={data.title} />
+            ) : (
+              data.thumbnail && <Image src={data.thumbnail} alt="" width={960} height={540} />
+            )}
+          </div>
+          <div class="text">
+            <h2>{data.title}</h2>
+            <p>{data.summary}</p>
+            <div class="actions">
+              <a class="btn" href={data.url}>{t(lang, data.type === "app" ? "hero.tryIt" : "hero.visit")}</a>
+              <a class="detail" href={workUrl(lang, slug)}>{t(lang, "hero.detail")}</a>
+            </div>
+          </div>
+        </article>
+      );
+    })}
+  </div>
+  {multi && (
+    <div class="controls">
+      <button type="button" class="nav prev" aria-label={t(lang, "a11y.prev")}>&lsaquo;</button>
+      <div class="hero-dots" role="tablist">
+        {works.map((_, i) => (
+          <button
+            type="button"
+            role="tab"
+            class="dot"
+            aria-selected={i === 0 ? "true" : "false"}
+            aria-label={t(lang, "a11y.goto").replace("{n}", String(i + 1))}
+          />
+        ))}
+      </div>
+      <button type="button" class="nav next" aria-label={t(lang, "a11y.next")}>&rsaquo;</button>
+    </div>
+  )}
+</section>
+<style>
+  .hero {
+    margin-top: 24px;
+    padding: 40px;
+    border-radius: 28px;
+    background: var(--hero-bg);
+  }
+  .slides {
+    display: grid;
+  }
+  .slide {
+    grid-area: 1 / 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+  }
+  .slide.is-current {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease;
+  }
+  .media {
+    min-width: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .media :global(img) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .text {
+    min-width: 0;
+  }
+  h2 {
+    margin: 0 0 12px;
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+  p {
+    margin: 0 0 20px;
+    color: var(--text-muted);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: var(--surface);
+    text-decoration: none;
+  }
+  .btn:hover {
+    opacity: 0.9;
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .hero-dots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+  }
+  .dot {
+    box-sizing: content-box;
+    width: 10px;
+    height: 10px;
+    padding: 7px;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(201, 116, 79, 0.3) content-box;
+    cursor: pointer;
+  }
+  .dot[aria-selected="true"] {
+    background: var(--accent) content-box;
+  }
+  .nav {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--accent);
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 639px) {
+    .hero {
+      padding: 20px 16px;
+      border-radius: 20px;
+    }
+    .slide {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    h2 {
+      font-size: 1.4rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slide,
+    .slide.is-current {
+      transition: none;
+    }
+  }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>("[data-hero]").forEach((hero) => {
+    const slides = Array.from(hero.querySelectorAll<HTMLElement>(".slide"));
+    const dots = Array.from(hero.querySelectorAll<HTMLElement>(".dot"));
+    let cur = 0;
+    let timer: number | undefined;
+    const show = (n: number) => {
+      cur = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        const on = i === cur;
+        s.classList.toggle("is-current", on);
+        s.inert = !on;
+        if (on) s.removeAttribute("aria-hidden");
+        else s.setAttribute("aria-hidden", "true");
+      });
+      dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === cur)));
+    };
+    const stop = () => {
+      if (timer !== undefined) window.clearInterval(timer);
+      timer = undefined;
+    };
+    const start = () => {
+      stop();
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      timer = window.setInterval(() => show(cur + 1), 6000);
+    };
+    dots.forEach((d, i) => d.addEventListener("click", () => { show(i); start(); }));
+    hero.querySelector(".prev")?.addEventListener("click", () => { show(cur - 1); start(); });
+    hero.querySelector(".next")?.addEventListener("click", () => { show(cur + 1); start(); });
+    hero.addEventListener("mouseenter", stop);
+    hero.addEventListener("mouseleave", start);
+    hero.addEventListener("focusin", stop);
+    hero.addEventListener("focusout", start);
+    start();
+  });
+</script>
