@@ -3,3 +3,4 @@ _cache
 .DS_Store
 deno.lock
 .superpowers
+.claude/worktrees/
