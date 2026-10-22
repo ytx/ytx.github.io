@@ -1,0 +1,14 @@
+---
+import Category from "../../views/Category.astro";
+import Post from "../../views/Post.astro";
+import { blogPaths } from "../../lib/paths";
+export async function getStaticPaths() {
+  return blogPaths("ja");
+}
+const props = Astro.props;
+---
+{props.kind === "category" ? (
+  <Category lang="ja" parent={props.parent} child={props.child} posts={props.posts} />
+) : (
+  <Post lang="ja" post={props.post} related={props.related} />
+)}

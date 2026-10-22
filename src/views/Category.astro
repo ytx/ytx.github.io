@@ -1,0 +1,79 @@
+---
+import Base from "../layouts/Base.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import PostCard from "../components/PostCard.astro";
+import { categoryName, childrenOf, type Lang } from "../data/categories";
+import { t, otherLang } from "../i18n";
+import { blogUrl, categoryUrl, homeUrl } from "../lib/urls";
+import type { Post } from "../lib/posts-core";
+interface Props {
+  lang: Lang;
+  parent: string;
+  child?: string;
+  posts: Post[];
+}
+const { lang, parent, child, posts } = Astro.props;
+const path = child ? `${parent}/${child}` : parent;
+const name = categoryName(child ?? parent, lang);
+const children = child ? [] : childrenOf(parent);
+const crumbs = [
+  { label: t(lang, "breadcrumb.home"), href: homeUrl(lang) },
+  { label: t(lang, "nav.blog"), href: blogUrl(lang) },
+  ...(child ? [{ label: categoryName(parent, lang), href: categoryUrl(lang, parent) }] : []),
+  { label: name },
+];
+---
+<Base lang={lang} title={name} description={t(lang, "blog.sub")} alternate={categoryUrl(otherLang(lang), path)}>
+  <div class="container">
+    <Breadcrumb items={crumbs} />
+    <h1>{name}</h1>
+    {children.length > 0 && (
+      <ul class="pills">
+        {children.map((c) => (
+          <li><a href={categoryUrl(lang, `${parent}/${c.slug}`)}>{categoryName(c.slug, lang)}</a></li>
+        ))}
+      </ul>
+    )}
+    {posts.length > 0 ? (
+      <div class="grid list">
+        {posts.map((post) => <PostCard lang={lang} post={post} />)}
+      </div>
+    ) : (
+      <p class="empty">{t(lang, "blog.empty")}</p>
+    )}
+  </div>
+</Base>
+<style>
+  h1 {
+    margin: 16px 0 12px;
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 8px;
+    padding: 0;
+    list-style: none;
+  }
+  .pills a {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--hero-bg);
+    color: var(--text);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .pills a:hover {
+    color: var(--accent);
+  }
+  .list {
+    margin-top: 24px;
+  }
+  .empty {
+    margin: 24px 0;
+    color: var(--text-muted);
+  }
+</style>

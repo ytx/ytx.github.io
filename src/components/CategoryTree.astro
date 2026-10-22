@@ -1,0 +1,49 @@
+---
+import { categoryName, childrenOf, parents, type Lang } from "../data/categories";
+import { categoryUrl } from "../lib/urls";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+<ul class="tree">
+  {parents().map((p) => (
+    <li>
+      <a class="parent" href={categoryUrl(lang, p.slug)}>{categoryName(p.slug, lang)}</a>
+      {childrenOf(p.slug).length > 0 && (
+        <ul>
+          {childrenOf(p.slug).map((c) => (
+            <li><a href={categoryUrl(lang, `${p.slug}/${c.slug}`)}>{categoryName(c.slug, lang)}</a></li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>
+<style>
+  .tree, .tree ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tree {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+  }
+  .parent {
+    font-weight: 700;
+  }
+  .tree ul {
+    margin-top: 4px;
+    padding-left: 14px;
+    font-size: 0.9rem;
+  }
+  a {
+    color: var(--text);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--accent);
+  }
+</style>

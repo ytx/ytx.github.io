@@ -18,6 +18,8 @@ export const en: Record<keyof typeof ja, string> = {
   "blog.allPill": "All",
   "blog.empty": "No posts yet",
   "blog.related": "More in this category",
+  "post.published": "Published",
+  "post.updated": "Updated",
   "work.howto": "How to use",
   "work.repo": "Source",
   "work.includes": "Pages",

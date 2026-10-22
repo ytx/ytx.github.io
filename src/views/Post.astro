@@ -1,0 +1,132 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Notice from "../components/Notice.astro";
+import SectionHead from "../components/SectionHead.astro";
+import PostCard from "../components/PostCard.astro";
+import { categoryName, getCategory, type Lang } from "../data/categories";
+import { formatDate, t, otherLang } from "../i18n";
+import { blogUrl, categoryUrl, homeUrl, postUrl, workUrl } from "../lib/urls";
+import { getWork } from "../lib/works";
+import type { Post } from "../lib/posts-core";
+interface Props {
+  lang: Lang;
+  post: Post;
+  related: Post[];
+}
+const { lang, post, related } = Astro.props;
+const { data, slug, category, translated } = post;
+const { Content } = await render(post.entry as CollectionEntry<"blog">);
+const path = category.child ? `${category.parent}/${category.child}` : category.parent;
+const work = data.work ? await getWork(lang, data.work) : undefined;
+const color = getCategory(category.parent)?.color ?? "var(--hero-bg)";
+const badge = category.child
+  ? `${categoryName(category.parent, lang)} / ${categoryName(category.child, lang)}`
+  : categoryName(category.parent, lang);
+let notice: string | undefined;
+let htmlLang: Lang = lang;
+if (!translated && lang === "en") {
+  notice = t("en", "untranslated.notice");
+  htmlLang = "ja";
+} else if (!translated && lang === "ja") {
+  notice = t("ja", "untranslatedEnOnly.notice");
+  htmlLang = "en";
+}
+const crumbs = [
+  { label: t(lang, "breadcrumb.home"), href: homeUrl(lang) },
+  { label: t(lang, "nav.blog"), href: blogUrl(lang) },
+  { label: categoryName(category.parent, lang), href: categoryUrl(lang, category.parent) },
+  ...(category.child ? [{ label: categoryName(category.child, lang), href: categoryUrl(lang, path) }] : []),
+  { label: data.title },
+];
+---
+<Base
+  lang={lang}
+  htmlLang={htmlLang}
+  title={data.title}
+  description={data.description}
+  alternate={postUrl(otherLang(lang), path, slug)}
+>
+  <div class="container">
+    <Breadcrumb items={crumbs} />
+    {notice && <Notice>{notice}</Notice>}
+    <h1>{data.title}</h1>
+    <p class="meta">
+      <a class="badge" href={categoryUrl(lang, path)} style={`background:${color}`}>{badge}</a>
+      <span><span class="label">{t(lang, "post.published")}</span> <time datetime={data.published.toISOString()}>{formatDate(data.published, lang)}</time></span>
+      {data.updated && (
+        <span><span class="label">{t(lang, "post.updated")}</span> <time datetime={data.updated.toISOString()}>{formatDate(data.updated, lang)}</time></span>
+      )}
+    </p>
+    {work && (
+      <a class="work-card" href={workUrl(lang, work.slug)}>
+        <span class="work-text">
+          <strong>{work.data.title}</strong>
+          <span>{work.data.summary}</span>
+        </span>
+        <span class="more">{t(lang, "hero.detail")}</span>
+      </a>
+    )}
+    <article class="prose"><Content /></article>
+    {related.length > 0 && (
+      <>
+        <SectionHead title={t(lang, "blog.related")} />
+        <div class="grid">
+          {related.map((p) => <PostCard lang={lang} post={p} />)}
+        </div>
+      </>
+    )}
+  </div>
+</Base>
+<style>
+  h1 {
+    margin: 16px 0 12px;
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    margin: 0 0 20px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .badge {
+    padding: 2px 12px;
+    border-radius: var(--radius-pill);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .label {
+    margin-right: 2px;
+  }
+  .work-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 24px;
+    padding: 14px 20px;
+    border-radius: var(--radius);
+    background: var(--hero-bg);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .work-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.9rem;
+  }
+  .work-text span {
+    color: var(--text-muted);
+  }
+  .more {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    color: var(--accent);
+  }
+</style>

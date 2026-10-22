@@ -16,6 +16,8 @@ export const ja = {
   "blog.allPill": "すべて",
   "blog.empty": "まだ記事がありません",
   "blog.related": "同じカテゴリの記事",
+  "post.published": "公開",
+  "post.updated": "更新",
   "work.howto": "使い方",
   "work.repo": "ソースコード",
   "work.includes": "含まれるページ",
