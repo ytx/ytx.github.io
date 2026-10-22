@@ -8,6 +8,7 @@
 - `npm run build` : `dist/` に静的サイトを生成
 - `npm run test` : ユニットテストを実行
 - `npm run test:build` : ビルドしてからビルド成果物のテストを実行
+- `npm run check` : 型チェック
 
 ## 作品を追加する
 
@@ -65,3 +66,7 @@ Body text.
 ```ts
 { slug: "maintenance", parent: "car", name: { ja: "メンテナンス", en: "Maintenance" }, color: "#dbe8fa" },
 ```
+
+## 公開設定
+
+GitHub の Settings > Pages > Source を "GitHub Actions" にする（リポジトリごとに 1 回、本人が行う）。あとは `main` に push すると `.github/workflows/deploy.yml` が動き、ビルドして公開される。push 前に `npm run check`、`npm run test`、`npm run test:build` が通ることを確かめる。

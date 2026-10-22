@@ -1,0 +1,37 @@
+---
+import { getEntry, render } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Notice from "../components/Notice.astro";
+import { otherLang, t, type Lang } from "../i18n";
+import { aboutUrl } from "../lib/urls";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const translated = lang === "ja" ? undefined : await getEntry("pages", "about.en");
+const entry = translated ?? (await getEntry("pages", "about"));
+if (!entry) throw new Error("pages/about is missing");
+const untranslated = lang === "en" && !translated;
+const { Content } = await render(entry);
+---
+<Base
+  lang={lang}
+  htmlLang={untranslated ? "ja" : lang}
+  title={t(lang, "nav.about")}
+  alternate={aboutUrl(otherLang(lang))}
+>
+  <div class="container">
+    {untranslated && <Notice>{t("en", "untranslated.notice")}</Notice>}
+    <article class="prose">
+      <h1>{entry.data.title}</h1>
+      <Content />
+    </article>
+  </div>
+</Base>
+<style>
+  h1 {
+    margin: 16px 0 12px;
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+</style>

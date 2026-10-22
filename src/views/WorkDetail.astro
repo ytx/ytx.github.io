@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { render, type CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
@@ -29,6 +29,7 @@ const crumbs = [
   ...(parent ? [{ label: parent.data.title, href: workUrl(lang, parent.slug) }] : []),
   { label: data.title },
 ];
+const ogImage = data.thumbnail ? (await getImage({ src: data.thumbnail, width: 1200, height: 630, fit: "cover", format: "png" })).src : undefined;
 const primary = data.type === "app" ? t(lang, "hero.tryIt") : t(lang, "hero.visit");
 ---
 <Base
@@ -36,6 +37,7 @@ const primary = data.type === "app" ? t(lang, "hero.tryIt") : t(lang, "hero.visi
   htmlLang={untranslated ? "ja" : lang}
   title={data.title}
   description={data.summary}
+  ogImage={ogImage}
   alternate={workUrl(otherLang(lang), slug)}
 >
   <div class="container">

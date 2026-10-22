@@ -7,7 +7,7 @@ export default defineConfig({
   i18n: { locales: ["ja", "en"], defaultLocale: "ja" },
   integrations: [
     sitemap({
-      i18n: { defaultLocale: "ja", locales: { ja: "ja-JP", en: "en-US" } },
+      i18n: { defaultLocale: "ja", locales: { ja: "ja", en: "en" } },
     }),
   ],
   fonts: [

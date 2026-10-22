@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import { render, type CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
@@ -20,6 +21,7 @@ const { data, slug, category, translated } = post;
 const { Content } = await render(post.entry as CollectionEntry<"blog">);
 const path = category.child ? `${category.parent}/${category.child}` : category.parent;
 const work = data.work ? await getWork(lang, data.work) : undefined;
+const ogImage = data.thumbnail ? (await getImage({ src: data.thumbnail, width: 1200, height: 630, fit: "cover", format: "png" })).src : undefined;
 const color = getCategory(category.parent)?.color ?? "var(--hero-bg)";
 const badge = category.child
   ? `${categoryName(category.parent, lang)} / ${categoryName(category.child, lang)}`
@@ -46,6 +48,8 @@ const crumbs = [
   htmlLang={htmlLang}
   title={data.title}
   description={data.description}
+  ogType="article"
+  ogImage={ogImage}
   alternate={postUrl(otherLang(lang), path, slug)}
 >
   <div class="container">
