@@ -4,9 +4,9 @@
   --text: #4a3f36;
   --text-muted: #8a7b6e;
   --accent: #c9744f;
-  --accent-2: #e0b04a;
-  --accent-3: #a9c8a4;
-  --hero-bg: #fdeede;
+  --accent-2: #e6c35c;
+  --accent-3: #e4e7cf;
+  --hero-bg: linear-gradient(135deg, #fbe3d3, #f8ecc9);
   --radius: 14px;
   --radius-pill: 999px;
   --shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
