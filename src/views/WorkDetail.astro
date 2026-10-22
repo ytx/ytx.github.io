@@ -49,6 +49,7 @@ const primary = data.type === "app" ? t(lang, "hero.tryIt") : t(lang, "hero.visi
       <a class="btn" href={data.url} target="_blank" rel="noopener">{primary}</a>
       {data.repo && <a class="repo" href={data.repo} target="_blank" rel="noopener">{t(lang, "work.repo")}</a>}
     </p>
+    {data.thumbnail && <Image class="hero-img" src={data.thumbnail} alt="" width={1280} height={720} loading="eager" />}
     {data.youtube && <YouTube id={data.youtube} title={data.title} />}
     {data.screenshots && data.screenshots.length > 0 && (
       <div class="shots">
@@ -75,6 +76,15 @@ const primary = data.type === "app" ? t(lang, "hero.tryIt") : t(lang, "hero.visi
   </div>
 </Base>
 <style>
+  .hero-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    margin: 16px 0 0;
+    border-radius: var(--radius);
+  }
   h1 {
     margin: 16px 0 8px;
     font-size: 1.8rem;

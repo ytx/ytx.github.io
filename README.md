@@ -12,7 +12,7 @@
 
 ## 作品を追加する
 
-`src/content/works/<slug>/index.md` を作り、同じフォルダにサムネイル画像を置く。日本語版では `title` `summary` `type` `url` `thumbnail` が必須（欠けるとビルドが失敗する）。親子作品にするときは子に `parent: <親の slug>` を書く（孫は不可）。
+`src/content/works/<slug>/index.md` を作り、同じフォルダにサムネイル画像を置く（作品ページの先頭にも表示される）。日本語版では `title` `summary` `type` `url` `thumbnail` が必須（欠けるとビルドが失敗する）。親子作品にするときは子に `parent: <親の slug>` を書く（孫は不可）。
 
 ```md
 ---
@@ -44,7 +44,7 @@ published: 2026-03-12
 本文。
 ```
 
-`thumbnail` は省略できる。指定すると記事カードと記事ページの先頭に表示される。サムネイルがない記事には `src/assets/placeholders/` の画像から slug ごとに決まった 1 枚が自動で選ばれる。画像を追加・削除するだけで入れ替わる（長辺 1600px 程度の JPEG を推奨、EXIF は削除しておく）。空のときは `src/assets/post-placeholder.png` が使われる。
+`thumbnail` は省略できる。指定すると記事カードと記事ページの先頭に表示される（記事ページに出るのは指定したときだけ）。サムネイルがない記事のカードには `src/assets/placeholders/` の画像から slug ごとに決まった 1 枚が自動で選ばれる。画像を追加・削除するだけで入れ替わる（長辺 1600px 程度の JPEG を推奨、EXIF は削除しておく）。空のときは `src/assets/post-placeholder.png` が使われる。
 
 ## 英語版を追加する
 

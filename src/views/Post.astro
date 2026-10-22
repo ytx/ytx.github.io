@@ -57,7 +57,7 @@ const crumbs = [
   <div class="container">
     <Breadcrumb items={crumbs} />
     {notice && <Notice>{notice}</Notice>}
-    <Image class="hero-img" src={cover} alt="" width={1280} height={720} loading="eager" />
+    {data.thumbnail && <Image class="hero-img" src={data.thumbnail} alt="" width={1280} height={720} loading="eager" />}
     <h1>{data.title}</h1>
     <p class="meta">
       <a class="badge" href={categoryUrl(lang, path)} style={`background:${color}`}>{badge}</a>
