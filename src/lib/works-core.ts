@@ -69,6 +69,6 @@ export function buildWorks(
   all.sort(compareWorks);
   for (const w of all) w.children.sort(compareWorks);
   const parents = all.filter((w) => !w.parentSlug);
-  const featured = parents.filter((w) => w.data.featured);
+  const featured = all.filter((w) => w.data.featured);
   return { all, parents, featured: featured.length > 0 ? featured : parents.slice(0, 1) };
 }

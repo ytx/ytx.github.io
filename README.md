@@ -21,7 +21,7 @@ summary: タイルで管理する、やること・記録・タイマー
 type: web            # app か web
 url: https://green.sv4.me/
 thumbnail: ./thumb.png
-featured: true       # トップのキャッチに出す（どれも無ければ先頭 1 件）
+featured: true       # トップのキャッチに出す（どれも無ければ先頭 1 件）。子作品（parent 指定）でも使える
 order: 10            # 小さい順に並ぶ
 published: 2026-03-01
 ---
@@ -69,4 +69,6 @@ Body text.
 
 ## 公開設定
 
-GitHub の Settings > Pages > Source を "GitHub Actions" にする（リポジトリごとに 1 回、本人が行う）。あとは `main` に push すると `.github/workflows/deploy.yml` が動き、ビルドして公開される。push 前に `npm run check`、`npm run test`、`npm run test:build` が通ることを確かめる。
+GitHub の Settings > Pages > Source を "GitHub Actions" にする（リポジトリごとに 1 回、本人が行う）。あとは `main` に push すると `.github/workflows/deploy.yml` が動き、ビルドして公開される。GitHub Pages が返す 404 ページはルートの `404.html` だけなので、このページは日本語と英語の両方を表示する（`/en/404` は単体では配信されない）。
+
+push 前に `npm run check`、`npm run test`、`npm run test:build` が通ることを確かめる。

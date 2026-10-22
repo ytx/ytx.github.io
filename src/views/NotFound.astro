@@ -4,16 +4,26 @@ import { t, otherLang, type Lang } from "../i18n";
 import { homeUrl } from "../lib/urls";
 interface Props {
   lang: Lang;
+  bilingual?: boolean;
 }
-const { lang } = Astro.props;
+const { lang, bilingual = false } = Astro.props;
 ---
 <Base lang={lang} title={t(lang, "notfound.title")} alternate={homeUrl(otherLang(lang))}>
   <div class="container nf">
     <h1>{t(lang, "notfound.title")}</h1>
     <p><a href={homeUrl(lang)}>{t(lang, "notfound.back")}</a></p>
+    {bilingual && (
+      <div class="en" lang="en">
+        <h1>{t("en", "notfound.title")}</h1>
+        <p><a href={homeUrl("en")}>{t("en", "notfound.back")}</a></p>
+      </div>
+    )}
   </div>
 </Base>
 <style>
+  .en {
+    margin-top: 40px;
+  }
   .nf {
     padding: 64px 16px;
     text-align: center;

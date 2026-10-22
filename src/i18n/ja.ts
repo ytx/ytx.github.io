@@ -1,5 +1,7 @@
 export const ja = {
   siteName: "ytx",
+  "nav.label": "メインナビゲーション",
+  "blog.filterLabel": "カテゴリで絞り込む",
   "nav.works": "Works",
   "nav.blog": "Blog",
   "nav.about": "About",

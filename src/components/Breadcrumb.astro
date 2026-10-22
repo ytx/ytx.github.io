@@ -11,7 +11,7 @@ const { items } = Astro.props;
         {item.href && i < items.length - 1 ? (
           <a href={item.href}>{item.label}</a>
         ) : (
-          <span aria-current="page">{item.label}</span>
+          <span aria-current={i === items.length - 1 ? "page" : undefined}>{item.label}</span>
         )}
       </li>
     ))}

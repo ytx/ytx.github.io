@@ -34,6 +34,10 @@ describe("buildWorks", () => {
   it("featured 全件", () => {
     expect(buildWorks(entries, "ja").featured.map((w) => w.slug)).toEqual(["green", "simplepages"]);
   });
+  it("子作品の featured も拾う", () => {
+    const withChild = entries.map((e) => (e.id === "l-timer/index" ? { ...e, data: { ...e.data, featured: true } } : e));
+    expect(buildWorks(withChild, "ja").featured.map((w) => w.slug)).toContain("l-timer");
+  });
   it("featured 0 件なら親の先頭 1 件", () => {
     const none = entries.map((e) => ({ ...e, data: { ...e.data, featured: undefined } }));
     expect(buildWorks(none, "ja").featured.map((w) => w.slug)).toEqual(["green"]);

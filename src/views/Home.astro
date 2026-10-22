@@ -18,6 +18,7 @@ const posts = await getPosts(lang);
 ---
 <Base lang={lang} title={t(lang, "siteName")} alternate={homeUrl(otherLang(lang))}>
   <div class="container">
+    <h1 class="visually-hidden">{t(lang, "siteName")}</h1>
     <Hero lang={lang} works={featured} />
     <SectionHead title={t(lang, "works.title")} sub={t(lang, "works.sub")} moreHref={worksUrl(lang)} moreLabel={t(lang, "works.all")} />
     <div class="grid">

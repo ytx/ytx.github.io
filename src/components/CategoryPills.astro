@@ -12,7 +12,7 @@ interface Props {
 const { lang, groups, all } = Astro.props;
 const slugs = parents().map((p) => p.slug).filter((s) => s in groups);
 ---
-<div class="pills" role="group">
+<div class="pills" role="group" aria-label={t(lang, "blog.filterLabel")}>
   <button type="button" class="pill" data-target="all" aria-pressed="true">{t(lang, "blog.allPill")}</button>
   {slugs.map((slug) => (
     <button type="button" class="pill" data-target={slug} aria-pressed="false">{categoryName(slug, lang)}</button>

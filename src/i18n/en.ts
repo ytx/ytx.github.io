@@ -2,6 +2,8 @@ import type { ja } from "./ja";
 
 export const en: Record<keyof typeof ja, string> = {
   siteName: "ytx",
+  "nav.label": "Main navigation",
+  "blog.filterLabel": "Filter by category",
   "nav.works": "Works",
   "nav.blog": "Blog",
   "nav.about": "About",
