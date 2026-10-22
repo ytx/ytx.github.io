@@ -4,10 +4,13 @@ interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
+const now = new Date().getFullYear();
+const year = now <= 2025 ? "2025" : `2025-${now}`;
+const copyright = t(lang, "footer.copyright").replace("2025-{year}", year);
 ---
 <footer class="site-footer">
   <div class="container">
-    <small>{t(lang, "footer.copyright")}</small>
+    <small>{copyright}</small>
   </div>
 </footer>
 <style>

@@ -22,7 +22,7 @@ const jaPath = lang === "ja" ? here : alternate;
 const enPath = lang === "en" ? here : alternate;
 const jaHref = new URL(jaPath, site).href;
 const enHref = new URL(enPath, site).href;
-const pageTitle = title === t(lang, "siteName") ? title : `${title} | ytx`;
+const pageTitle = title === t(lang, "siteName") ? title : `${title} | ${t(lang, "siteName")}`;
 const ogUrl = new URL(here, site).href;
 const ogImageUrl = new URL(ogImage ?? "/og-default.png", site).href;
 ---
@@ -38,7 +38,7 @@ const ogImageUrl = new URL(ogImage ?? "/og-default.png", site).href;
     <meta property="og:url" content={ogUrl} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:locale" content={lang === "ja" ? "ja_JP" : "en_US"} />
-    <meta property="og:site_name" content="ytx" />
+    <meta property="og:site_name" content={t(lang, "siteName")} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="alternate" hreflang="ja" href={jaHref} />
     <link rel="alternate" hreflang="en" href={enHref} />

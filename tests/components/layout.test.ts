@@ -30,7 +30,7 @@ describe("Footer / SectionHead", () => {
   test("footer renders copyright", async () => {
     const html = await container.renderToString(Footer, { props: { lang: "ja" } });
     expect(html).toContain("<footer");
-    expect(html).toContain("© ytx");
+    expect(html).toContain(`© yuichi TAKAHASHI 2025-${new Date().getFullYear()}`);
   });
   test("SectionHead renders more link", async () => {
     const html = await container.renderToString(SectionHead, {
@@ -49,7 +49,7 @@ describe("Base", () => {
       request: new Request("https://ytx.github.io/"),
     });
     expect(html).toContain('<html lang="ja"');
-    expect(html).toContain("<title>テスト | ytx</title>");
+    expect(html).toContain("<title>テスト | ytx.github.io</title>");
     expect(html).toContain('rel="alternate" hreflang="ja" href="https://ytx.github.io/"');
     expect(html).toContain('rel="alternate" hreflang="en" href="https://ytx.github.io/en/"');
     expect(html).toContain('hreflang="x-default" href="https://ytx.github.io/"');

@@ -8,7 +8,7 @@ import { postUrl } from "./urls";
 export async function feed(context: APIContext, lang: Lang) {
   const posts = await getPosts(lang);
   return rss({
-    title: "ytx",
+    title: t(lang, "siteName"),
     description: t(lang, "blog.sub"),
     site: context.site!,
     items: posts.map(({ data, slug }) => ({

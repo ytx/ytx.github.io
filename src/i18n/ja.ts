@@ -1,5 +1,5 @@
 export const ja = {
-  siteName: "ytx",
+  siteName: "ytx.github.io",
   "nav.label": "メインナビゲーション",
   "blog.filterLabel": "カテゴリで絞り込む",
   "nav.works": "Works",
@@ -29,7 +29,7 @@ export const ja = {
   "lang.switch": "EN",
   "notfound.title": "ページが見つかりません",
   "notfound.back": "トップへ戻る",
-  "footer.copyright": "© ytx",
+  "footer.copyright": "© yuichi TAKAHASHI 2025-{year}",
   "breadcrumb.home": "ホーム",
   "a11y.prev": "前へ",
   "a11y.next": "次へ",

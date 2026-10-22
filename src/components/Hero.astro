@@ -29,7 +29,7 @@ const multi = works.length > 1;
             <h2>{data.title}</h2>
             <p>{data.summary}</p>
             <div class="actions">
-              <a class="btn" href={data.url}>{t(lang, data.type === "app" ? "hero.tryIt" : "hero.visit")}</a>
+              <a class="btn" href={data.url} target="_blank" rel="noopener">{t(lang, data.type === "app" ? "hero.tryIt" : "hero.visit")}</a>
               <a class="detail" href={workUrl(lang, slug)}>{t(lang, "hero.detail")}</a>
             </div>
           </div>

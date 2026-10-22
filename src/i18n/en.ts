@@ -1,7 +1,7 @@
 import type { ja } from "./ja";
 
 export const en: Record<keyof typeof ja, string> = {
-  siteName: "ytx",
+  siteName: "ytx.github.io",
   "nav.label": "Main navigation",
   "blog.filterLabel": "Filter by category",
   "nav.works": "Works",
@@ -31,7 +31,7 @@ export const en: Record<keyof typeof ja, string> = {
   "lang.switch": "日本語",
   "notfound.title": "Page not found",
   "notfound.back": "Back to top",
-  "footer.copyright": "© ytx",
+  "footer.copyright": "© yuichi TAKAHASHI 2025-{year}",
   "breadcrumb.home": "Home",
   "a11y.prev": "Previous",
   "a11y.next": "Next",

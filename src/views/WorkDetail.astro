@@ -46,8 +46,8 @@ const primary = data.type === "app" ? t(lang, "hero.tryIt") : t(lang, "hero.visi
     <h1>{data.title}</h1>
     <p class="summary">{data.summary}</p>
     <p class="actions">
-      <a class="btn" href={data.url}>{primary}</a>
-      {data.repo && <a class="repo" href={data.repo}>{t(lang, "work.repo")}</a>}
+      <a class="btn" href={data.url} target="_blank" rel="noopener">{primary}</a>
+      {data.repo && <a class="repo" href={data.repo} target="_blank" rel="noopener">{t(lang, "work.repo")}</a>}
     </p>
     {data.youtube && <YouTube id={data.youtube} title={data.title} />}
     {data.screenshots && data.screenshots.length > 0 && (
