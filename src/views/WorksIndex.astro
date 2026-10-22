@@ -1,0 +1,21 @@
+---
+import Base from "../layouts/Base.astro";
+import SectionHead from "../components/SectionHead.astro";
+import WorkCard from "../components/WorkCard.astro";
+import { t, otherLang, type Lang } from "../i18n";
+import { worksUrl } from "../lib/urls";
+import { getWorks } from "../lib/works";
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const works = await getWorks(lang);
+---
+<Base lang={lang} title={t(lang, "works.title")} description={t(lang, "works.sub")} alternate={worksUrl(otherLang(lang))}>
+  <div class="container">
+    <SectionHead title={t(lang, "works.title")} sub={t(lang, "works.sub")} />
+    <div class="grid">
+      {works.map((work) => <WorkCard lang={lang} work={work} />)}
+    </div>
+  </div>
+</Base>

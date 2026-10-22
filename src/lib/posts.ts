@@ -16,7 +16,7 @@ export {
 /** published 降順。build 時は draft 除外。 */
 export async function getPosts(lang: Lang): Promise<Post[]> {
   const entries = await getCollection("blog");
-  const posts = buildPosts(entries, lang, { excludeDrafts: import.meta.env.PROD });
+  const posts = buildPosts(entries.map((e) => ({ id: e.id, data: e.data, entry: e })), lang, { excludeDrafts: import.meta.env.PROD });
   assertNoSlugCollision(posts);
   assertWorkRefs(posts, (await getAllWorks("ja")).map((w) => w.slug));
   return posts;

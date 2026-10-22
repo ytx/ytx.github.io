@@ -6,7 +6,7 @@ export { buildWorks, type Work, type WorkData } from "./works-core";
 
 async function load(lang: Lang) {
   const entries = await getCollection("works");
-  return buildWorks(entries, lang);
+  return buildWorks(entries.map((e) => ({ id: e.id, data: e.data, entry: e })), lang);
 }
 
 /** 親のみ。children を詰めて order → published 降順。 */

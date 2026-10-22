@@ -12,8 +12,9 @@ interface Props {
   description?: string;
   alternate?: string;
   ogImage?: string;
+  htmlLang?: Lang;
 }
-const { lang, title, description, alternate = homeUrl(otherLang(lang)) } = Astro.props;
+const { lang, title, description, alternate = homeUrl(otherLang(lang)), htmlLang = lang } = Astro.props;
 const site = Astro.site ?? new URL("https://ytx.github.io");
 const here = Astro.url.pathname;
 const jaPath = lang === "ja" ? here : alternate;
@@ -21,7 +22,7 @@ const enPath = lang === "en" ? here : alternate;
 const jaHref = new URL(jaPath, site).href;
 const enHref = new URL(enPath, site).href;
 ---
-<html lang={lang}>
+<html lang={htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

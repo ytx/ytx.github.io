@@ -1,0 +1,118 @@
+---
+import { Image } from "astro:assets";
+import { render, type CollectionEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import Breadcrumb from "../components/Breadcrumb.astro";
+import Notice from "../components/Notice.astro";
+import YouTube from "../components/YouTube.astro";
+import SectionHead from "../components/SectionHead.astro";
+import WorkCard from "../components/WorkCard.astro";
+import PostCard from "../components/PostCard.astro";
+import { t, otherLang, type Lang } from "../i18n";
+import { homeUrl, worksUrl, workUrl } from "../lib/urls";
+import { getWork } from "../lib/works";
+import { postsForWork } from "../lib/posts";
+import type { Work } from "../lib/works-core";
+interface Props {
+  lang: Lang;
+  work: Work;
+}
+const { lang, work } = Astro.props;
+const { data, slug, children, translated, parentSlug } = work;
+const { Content } = await render(work.entry as CollectionEntry<"works">);
+const parent = parentSlug ? await getWork(lang, parentSlug) : undefined;
+const posts = await postsForWork(lang, slug);
+const untranslated = !translated && lang === "en";
+const crumbs = [
+  { label: t(lang, "breadcrumb.home"), href: homeUrl(lang) },
+  { label: t(lang, "nav.works"), href: worksUrl(lang) },
+  ...(parent ? [{ label: parent.data.title, href: workUrl(lang, parent.slug) }] : []),
+  { label: data.title },
+];
+const primary = data.type === "app" ? t(lang, "hero.tryIt") : t(lang, "hero.visit");
+---
+<Base
+  lang={lang}
+  htmlLang={untranslated ? "ja" : lang}
+  title={data.title}
+  description={data.summary}
+  alternate={workUrl(otherLang(lang), slug)}
+>
+  <div class="container">
+    <Breadcrumb items={crumbs} />
+    {untranslated && <Notice>{t("en", "untranslated.notice")}</Notice>}
+    <h1>{data.title}</h1>
+    <p class="summary">{data.summary}</p>
+    <p class="actions">
+      <a class="btn" href={data.url}>{primary}</a>
+      {data.repo && <a class="repo" href={data.repo}>{t(lang, "work.repo")}</a>}
+    </p>
+    {data.youtube && <YouTube id={data.youtube} title={data.title} />}
+    {data.screenshots && data.screenshots.length > 0 && (
+      <div class="shots">
+        {data.screenshots.map((s) => <Image src={s} alt="" width={1280} height={720} />)}
+      </div>
+    )}
+    <div class="prose"><Content /></div>
+    {children.length > 0 && (
+      <>
+        <SectionHead title={t(lang, "work.includes")} />
+        <div class="grid">
+          {children.map((c) => <WorkCard lang={lang} work={c} />)}
+        </div>
+      </>
+    )}
+    {posts.length > 0 && (
+      <>
+        <SectionHead title={t(lang, "work.howto")} />
+        <div class="grid">
+          {posts.map((p) => <PostCard lang={lang} post={p} />)}
+        </div>
+      </>
+    )}
+  </div>
+</Base>
+<style>
+  h1 {
+    margin: 16px 0 8px;
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+  .summary {
+    margin: 0 0 16px;
+    color: var(--text-muted);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+    margin: 0 0 24px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 10px 28px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: var(--surface);
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .btn:hover {
+    opacity: 0.9;
+  }
+  .shots {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .shots :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+</style>
