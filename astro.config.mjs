@@ -17,6 +17,7 @@ export default defineConfig({
       provider: fontProviders.google(),
       weights: [400, 500, 700],
       styles: ["normal"],
+      fallbacks: ["Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", "sans-serif"],
     },
   ],
   markdown: { shikiConfig: { theme: "github-light" } },

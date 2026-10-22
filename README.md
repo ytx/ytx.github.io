@@ -44,7 +44,7 @@ published: 2026-03-12
 本文。
 ```
 
-`thumbnail` は省略できる。指定すると記事カードと記事ページの先頭に表示される。省略したときは `src/assets/post-placeholder.png` が使われる（既定の画像を変えたいときはこのファイルを差し替える）。
+`thumbnail` は省略できる。指定すると記事カードと記事ページの先頭に表示される。サムネイルがない記事には `src/assets/placeholders/` の画像から slug ごとに決まった 1 枚が自動で選ばれる。画像を追加・削除するだけで入れ替わる（長辺 1600px 程度の JPEG を推奨、EXIF は削除しておく）。空のときは `src/assets/post-placeholder.png` が使われる。
 
 ## 英語版を追加する
 

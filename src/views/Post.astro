@@ -1,7 +1,7 @@
 ---
 import { Image, getImage } from "astro:assets";
 import { render, type CollectionEntry } from "astro:content";
-import placeholder from "../assets/post-placeholder.png";
+import { pickPlaceholder } from "../lib/placeholders";
 import Base from "../layouts/Base.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import Notice from "../components/Notice.astro";
@@ -22,7 +22,8 @@ const { data, slug, category, translated } = post;
 const { Content } = await render(post.entry as CollectionEntry<"blog">);
 const path = category.child ? `${category.parent}/${category.child}` : category.parent;
 const work = data.work ? await getWork(lang, data.work) : undefined;
-const ogImage = (await getImage({ src: data.thumbnail ?? placeholder, width: 1200, height: 630, fit: "cover", format: "png" })).src;
+const cover = data.thumbnail ?? pickPlaceholder(slug);
+const ogImage = (await getImage({ src: cover, width: 1200, height: 630, fit: "cover", format: "png" })).src;
 const color = getCategory(category.parent)?.color ?? "var(--hero-bg)";
 const badge = category.child
   ? `${categoryName(category.parent, lang)} / ${categoryName(category.child, lang)}`
@@ -56,7 +57,7 @@ const crumbs = [
   <div class="container">
     <Breadcrumb items={crumbs} />
     {notice && <Notice>{notice}</Notice>}
-    <Image class="hero-img" src={data.thumbnail ?? placeholder} alt="" width={1280} height={720} loading="eager" />
+    <Image class="hero-img" src={cover} alt="" width={1280} height={720} loading="eager" />
     <h1>{data.title}</h1>
     <p class="meta">
       <a class="badge" href={categoryUrl(lang, path)} style={`background:${color}`}>{badge}</a>
