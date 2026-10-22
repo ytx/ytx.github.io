@@ -50,6 +50,10 @@ describe("buildWorks", () => {
   it("孫は throw", () => {
     expect(() => buildWorks([...entries, entryLike({ id: "y/index", parent: "l-timer" })], "ja")).toThrow(/grandchild/);
   });
+  it("日本語版が無い作品（英語版のみ）は throw", () => {
+    const enOnly = { id: "solo/index.en", data: { title: "Solo", summary: "s" } as WorkData };
+    expect(() => buildWorks([...entries, enOnly], "en")).toThrow(/missing ja.*solo/);
+  });
   it("日本語側の必須項目が無ければ throw", () => {
     const bad = entryLike({ id: "z/index" });
     delete (bad.data as Partial<WorkData>).url;

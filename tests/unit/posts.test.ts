@@ -50,6 +50,9 @@ describe("assertNoSlugCollision", () => {
   it("記事 slug が同親の子カテゴリ slug と同じなら throw", () => {
     expect(() => assertNoSlugCollision([postLike({ slug: "maintenance", category: "car" })])).toThrow(/collision/);
   });
+  it("子カテゴリに置いた記事は同名 slug でも衝突しない", () => {
+    expect(() => assertNoSlugCollision([postLike({ slug: "maintenance", category: "car/maintenance" })])).not.toThrow();
+  });
   it("衝突が無ければ通る", () => {
     expect(() => assertNoSlugCollision(posts)).not.toThrow();
   });

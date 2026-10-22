@@ -46,10 +46,10 @@ export function latestPerParent(posts: Post[], n: number): Record<string, Post[]
   return result;
 }
 
-/** 記事 slug が同じ親の子カテゴリ slug と同じなら URL が衝突するので throw。 */
+/** 親カテゴリ直下の記事の slug が、その親の子カテゴリ slug と同じなら URL が衝突するので throw。 */
 export function assertNoSlugCollision(posts: Post[]): void {
   for (const p of posts) {
-    if (childrenOf(p.category.parent).some((c) => c.slug === p.slug)) {
+    if (p.category.child === undefined && childrenOf(p.category.parent).some((c) => c.slug === p.slug)) {
       throw new Error(`blog/${p.slug}: slug collision with child category "${p.slug}" of "${p.category.parent}"`);
     }
   }

@@ -60,7 +60,7 @@ Body text.
 
 ## カテゴリを追加する
 
-`src/data/categories.ts` の `CATEGORIES` に 1 行足す。子カテゴリは `parent` に親の slug を書く（階層は 2 段まで）。記事の slug は、同じ親の子カテゴリの slug と同じにできない。
+`src/data/categories.ts` の `CATEGORIES` に 1 行足す。子カテゴリは `parent` に親の slug を書く（階層は 2 段まで）。親カテゴリの直下に置く記事の slug は、その親の子カテゴリ slug と同じにできません。
 
 ```ts
 { slug: "maintenance", parent: "car", name: { ja: "メンテナンス", en: "Maintenance" }, color: "#dbe8fa" },

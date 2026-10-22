@@ -37,8 +37,10 @@ export function buildWorks(
   entries: Entry[],
   lang: Lang,
 ): { all: Work[]; parents: Work[]; featured: Work[] } {
+  const jaSlugs = new Set(entries.map((e) => parseId(e.id)).filter((x) => x.lang === "ja").map((x) => x.slug));
   for (const e of entries) {
     const { slug, lang: l } = parseId(e.id);
+    if (l === "en" && !jaSlugs.has(slug)) throw new Error(`missing ja version of work "${slug}" (works/${slug}/index.md)`);
     if (l !== "ja") continue;
     for (const key of REQUIRED_JA) {
       if (e.data[key] === undefined || e.data[key] === "") {
