@@ -22,7 +22,7 @@ const multi = works.length > 1;
             {data.youtube ? (
               <YouTube id={data.youtube} title={data.title} />
             ) : (
-              data.thumbnail && <Image src={data.thumbnail} alt="" width={960} height={540} />
+              data.thumbnail && <Image src={data.thumbnail} alt="" width={960} height={540} loading={i === 0 ? "eager" : "lazy"} />
             )}
           </div>
           <div class="text">
@@ -203,18 +203,21 @@ const multi = works.length > 1;
       if (timer !== undefined) window.clearInterval(timer);
       timer = undefined;
     };
+    let hovered = false;
+    let focused = false;
     const start = () => {
       stop();
+      if (hovered || focused) return;
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       timer = window.setInterval(() => show(cur + 1), 6000);
     };
     dots.forEach((d, i) => d.addEventListener("click", () => { show(i); start(); }));
     hero.querySelector(".prev")?.addEventListener("click", () => { show(cur - 1); start(); });
     hero.querySelector(".next")?.addEventListener("click", () => { show(cur + 1); start(); });
-    hero.addEventListener("mouseenter", stop);
-    hero.addEventListener("mouseleave", start);
-    hero.addEventListener("focusin", stop);
-    hero.addEventListener("focusout", start);
+    hero.addEventListener("mouseenter", () => { hovered = true; stop(); });
+    hero.addEventListener("mouseleave", () => { hovered = false; start(); });
+    hero.addEventListener("focusin", () => { focused = true; stop(); });
+    hero.addEventListener("focusout", () => { focused = false; start(); });
     start();
   });
 </script>
