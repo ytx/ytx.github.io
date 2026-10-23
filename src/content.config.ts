@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { isValidCategoryPath } from "./data/categories";
+import { WORK_ACCESS, WORK_TYPES } from "./lib/works-core";
 
 const loader = (base: string) =>
   glob({ pattern: "**/*.md", base, generateId: ({ entry }) => entry.replace(/\.md$/, "") });
@@ -12,7 +13,8 @@ const works = defineCollection({
     z.object({
       title: z.string(),
       summary: z.string(),
-      type: z.enum(["app", "web"]).optional(),
+      type: z.enum(WORK_TYPES).optional(),
+      access: z.enum(WORK_ACCESS).optional(),
       url: z.url().optional(),
       repo: z.url().optional(),
       thumbnail: image().optional(),

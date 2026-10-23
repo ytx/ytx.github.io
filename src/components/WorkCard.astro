@@ -2,7 +2,8 @@
 import { Image } from "astro:assets";
 import { t, type Lang } from "../i18n";
 import { workUrl } from "../lib/urls";
-import type { Work } from "../lib/works-core";
+import { pickPlaceholder } from "../lib/placeholders";
+import { primaryAction, type Work, type WorkType } from "../lib/works-core";
 
 interface Props {
   lang: Lang;
@@ -10,18 +11,21 @@ interface Props {
 }
 const { lang, work } = Astro.props;
 const { data, slug, children, translated } = work;
-const typeLabel = data.type === "app" ? "App" : data.type === "web" ? "Web" : undefined;
+const TYPE_LABELS: Record<WorkType, string> = { app: "App", web: "Web", desktop: "Desktop", tool: "Tool", device: "Device" };
+const typeLabel = data.type ? TYPE_LABELS[data.type] : undefined;
+const closed = primaryAction(data).kind === "contact";
 const pagesLabel = children.length > 0 ? t(lang, "works.pages").replace("{n}", String(children.length)) : undefined;
 const untranslated = !translated && lang !== "ja";
 ---
 <a class="work-card" href={workUrl(lang, slug)}>
   <div class="thumb">
-    {data.thumbnail && <Image src={data.thumbnail} alt="" width={640} height={360} />}
+    <Image src={data.thumbnail ?? pickPlaceholder(slug)} alt="" width={640} height={360} />
   </div>
   <div class="body">
     <div class="badges">
       {typeLabel && <span class="badge badge-type">{typeLabel}</span>}
       {pagesLabel && <span class="badge badge-pages">{pagesLabel}</span>}
+      {closed && <span class="badge badge-closed">{t(lang, "works.closed")}</span>}
       {untranslated && <span class="badge badge-untranslated">{t(lang, "untranslated.badge")}</span>}
     </div>
     <h3>{data.title}</h3>
@@ -73,6 +77,7 @@ const untranslated = !translated && lang !== "ja";
     background: var(--accent);
     color: var(--surface);
   }
+  .badge-closed,
   .badge-untranslated {
     color: var(--text-muted);
   }

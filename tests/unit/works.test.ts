@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildWorks, type WorkData } from "../../src/lib/works-core";
+import { buildWorks, primaryAction, type WorkData } from "../../src/lib/works-core";
 
 function entryLike(o: { id: string } & Partial<WorkData>) {
   const { id, ...rest } = o;
@@ -8,7 +8,6 @@ function entryLike(o: { id: string } & Partial<WorkData>) {
     summary: "s",
     type: "web",
     url: "https://example.com",
-    thumbnail: { src: "/thumb.png", width: 1, height: 1, format: "png" },
     ...rest,
   };
   return { id, data };
@@ -38,6 +37,10 @@ describe("buildWorks", () => {
     const withChild = entries.map((e) => (e.id === "l-timer/index" ? { ...e, data: { ...e.data, featured: true } } : e));
     expect(buildWorks(withChild, "ja").featured.map((w) => w.slug)).toContain("l-timer");
   });
+  it("featured の子作品は親のすぐあとに並ぶ", () => {
+    const all = entries.map((e) => (e.id.endsWith(".en") ? e : { ...e, data: { ...e.data, featured: true } }));
+    expect(buildWorks(all, "ja").featured.map((w) => w.slug)).toEqual(["green", "kaji0", "simplepages", "l-timer", "weather"]);
+  });
   it("featured 0 件なら親の先頭 1 件", () => {
     const none = entries.map((e) => ({ ...e, data: { ...e.data, featured: undefined } }));
     expect(buildWorks(none, "ja").featured.map((w) => w.slug)).toEqual(["green"]);
@@ -60,7 +63,39 @@ describe("buildWorks", () => {
   });
   it("日本語側の必須項目が無ければ throw", () => {
     const bad = entryLike({ id: "z/index" });
-    delete (bad.data as Partial<WorkData>).url;
-    expect(() => buildWorks([...entries, bad], "ja")).toThrow(/url/);
+    delete (bad.data as Partial<WorkData>).type;
+    expect(() => buildWorks([...entries, bad], "ja")).toThrow(/type/);
+  });
+  it("thumbnail は省略できる", () => {
+    expect(() => buildWorks(entries, "ja")).not.toThrow();
+  });
+  it("主ボタンにリンク先が無ければ throw", () => {
+    const noUrl = entryLike({ id: "u/index", url: undefined });
+    expect(() => buildWorks([...entries, noUrl], "ja")).toThrow(/url/);
+    const noRepo = entryLike({ id: "r/index", url: undefined, access: "source" });
+    expect(() => buildWorks([...entries, noRepo], "ja")).toThrow(/repo/);
+  });
+  it("問い合わせの作品は url が無くてよい", () => {
+    const c = entryLike({ id: "c/index", type: "device", url: undefined, access: "contact" });
+    expect(() => buildWorks([...entries, c], "ja")).not.toThrow();
+  });
+});
+
+describe("primaryAction", () => {
+  const base: WorkData = { title: "t", summary: "s", type: "app", url: "https://example.com/" };
+  it("access 省略時は type から決める", () => {
+    expect(primaryAction(base)).toEqual({ kind: "try", href: "https://example.com/" });
+    expect(primaryAction({ ...base, type: "web" })).toEqual({ kind: "visit", href: "https://example.com/" });
+    expect(primaryAction({ ...base, type: "desktop" }).kind).toBe("visit");
+  });
+  it("download は url、source は repo へ", () => {
+    expect(primaryAction({ ...base, access: "download" })).toEqual({ kind: "download", href: "https://example.com/" });
+    expect(primaryAction({ ...base, url: undefined, repo: "https://github.com/x/y", access: "source" })).toEqual({
+      kind: "source",
+      href: "https://github.com/x/y",
+    });
+  });
+  it("contact はリンク先を持たない", () => {
+    expect(primaryAction({ ...base, url: undefined, access: "contact" })).toEqual({ kind: "contact" });
   });
 });

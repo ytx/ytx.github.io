@@ -4,8 +4,8 @@ import { ja } from "../../src/i18n/ja";
 import { en } from "../../src/i18n/en";
 
 test("t returns per language", () => {
-  expect(t("ja", "hero.tryIt")).toBe("使ってみる");
-  expect(t("en", "hero.tryIt")).toBe("Try it");
+  expect(t("ja", "action.try")).toBe("使ってみる");
+  expect(t("en", "action.try")).toBe("Try it");
 });
 test("every key exists in both", () => expect(Object.keys(en).sort()).toEqual(Object.keys(ja).sort()));
 test("formatDate", () => {

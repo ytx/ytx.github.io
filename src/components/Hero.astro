@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import YouTube from "./YouTube.astro";
+import ActionLink from "./ActionLink.astro";
+import { pickPlaceholder } from "../lib/placeholders";
 import { t, type Lang } from "../i18n";
 import { workUrl } from "../lib/urls";
 import type { Work } from "../lib/works-core";
@@ -22,14 +24,14 @@ const multi = works.length > 1;
             {data.youtube ? (
               <YouTube id={data.youtube} title={data.title} />
             ) : (
-              data.thumbnail && <Image src={data.thumbnail} alt="" width={960} height={540} loading={i === 0 ? "eager" : "lazy"} />
+              <Image src={data.thumbnail ?? pickPlaceholder(slug)} alt="" width={960} height={540} loading={i === 0 ? "eager" : "lazy"} />
             )}
           </div>
           <div class="text">
             <h2>{data.title}</h2>
             <p>{data.summary}</p>
             <div class="actions">
-              <a class="btn" href={data.url} target="_blank" rel="noopener">{t(lang, data.type === "app" ? "hero.tryIt" : "hero.visit")}</a>
+              <ActionLink class="btn" lang={lang} data={data} />
               <a class="detail" href={workUrl(lang, slug)}>{t(lang, "hero.detail")}</a>
             </div>
           </div>

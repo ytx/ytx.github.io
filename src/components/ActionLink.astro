@@ -1,0 +1,23 @@
+---
+import { t, type Lang } from "../i18n";
+import { contactCode } from "../lib/mail";
+import { primaryAction, type WorkData } from "../lib/works-core";
+
+// class と、親の scoped スタイル用の属性をそのまま <a> に渡す。
+interface Props {
+  lang: Lang;
+  data: WorkData;
+  [attr: string]: unknown;
+}
+const { lang, data, ...attrs } = Astro.props;
+const action = primaryAction(data);
+const label = t(lang, `action.${action.kind}`);
+---
+{action.kind === "contact" ? (
+  <a {...attrs} href="#" data-mail={contactCode()} data-subject={t(lang, "action.mailSubject").replace("{title}", data.title)}>{label}</a>
+) : (
+  <a {...attrs} href={action.href} target="_blank" rel="noopener">{label}</a>
+)}
+<script>
+  import "../scripts/mail";
+</script>

@@ -12,13 +12,30 @@
 
 ## 作品を追加する
 
-`src/content/works/<slug>/index.md` を作り、同じフォルダにサムネイル画像を置く（作品ページの先頭にも表示される）。日本語版では `title` `summary` `type` `url` `thumbnail` が必須（欠けるとビルドが失敗する）。親子作品にするときは子に `parent: <親の slug>` を書く（孫は不可）。
+`src/content/works/<slug>/index.md` を作る。日本語版では `title` `summary` `type` が必須（欠けるとビルドが失敗する）。親子作品にするときは子に `parent: <親の slug>` を書く（孫は不可）。
+
+`thumbnail` は記事と同じく省略できる。指定すると作品カードと作品ページの先頭に表示される。省略した作品のカードには、記事と同じ代わりの画像が slug ごとに選ばれる。
+
+作品ページの大きいボタンは `access` で決める。
+
+| access | ボタン | 飛び先 | 必要な項目 |
+|---|---|---|---|
+| `try` | 使ってみる | `url` | `url` |
+| `visit` | サイトを見る | `url` | `url` |
+| `download` | ダウンロード | `url` | `url` |
+| `source` | GitHub で見る | `repo` | `repo` |
+| `contact` | お問い合わせ | メール（`src/lib/mail.ts` の宛先） | なし |
+
+`access` を省くと、`type: app` なら `try`、それ以外は `visit` になる。必要な項目が無いとビルドが失敗する。`contact` の作品のカードには「コード非公開」のバッジが付く。`repo` を書くと（`access: source` のとき以外は）「ソースコード」のリンクも出る。
+
+問い合わせ先のアドレスは HTML に書かず、符号化して埋め込み、ボタンに触れたときにブラウザ側で `mailto:` を組み立てる（クローラーに拾われにくくするため）。
 
 ```md
 ---
 title: green（happy green tiles）
 summary: タイルで管理する、やること・記録・タイマー
-type: web            # app か web
+type: web            # app / web / desktop / tool / device
+access: visit        # 省略可。try / visit / download / source / contact
 url: https://green.sv4.me/
 thumbnail: ./thumb.png
 featured: true       # トップのキャッチに出す（どれも無ければ先頭 1 件）。子作品（parent 指定）でも使える
@@ -84,7 +101,7 @@ Body text.
 【出力形式】
 完成した `index.md` と `index.en.md` を、それぞれコードブロックで出力してください。
 frontmatter はこのサイトの形式に合わせます。
-- index.md：title, summary, type（app か web）, url, repo, thumbnail, youtube, featured, order, parent, tags, published
+- index.md：title, summary, type（app / web / desktop / tool / device）, access（try / visit / download / source / contact）, url, repo, thumbnail, youtube, featured, order, parent, tags, published
 - index.en.md：title, summary のみ
 わからない項目は、`# repo: ` のようにコメントアウトした空欄で残してください。推測で埋めないでください。
 絵文字は使わないでください。

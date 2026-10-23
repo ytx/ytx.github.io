@@ -3,10 +3,18 @@ import type { Lang } from "../data/categories";
 import { parseId } from "./ids";
 import { pairByLang, type Localized } from "./pair";
 
+export const WORK_TYPES = ["app", "web", "desktop", "tool", "device"] as const;
+export type WorkType = (typeof WORK_TYPES)[number];
+
+/** 作品ページの主ボタンの種類。try / visit / download は url、source は repo へ飛ぶ。contact はメール。 */
+export const WORK_ACCESS = ["try", "visit", "download", "source", "contact"] as const;
+export type WorkAccess = (typeof WORK_ACCESS)[number];
+
 export type WorkData = {
   title: string;
   summary: string;
-  type?: "app" | "web";
+  type?: WorkType;
+  access?: WorkAccess;
   url?: string;
   repo?: string;
   thumbnail?: ImageMetadata;
@@ -23,7 +31,16 @@ export type Work = Localized<WorkData> & { children: Work[]; parentSlug?: string
 
 type Entry = { id: string; data: WorkData; entry?: unknown };
 
-const REQUIRED_JA = ["title", "summary", "thumbnail", "url", "type"] as const;
+const REQUIRED_JA = ["title", "summary", "type"] as const;
+
+export type PrimaryAction = { kind: WorkAccess; href?: string };
+
+/** 純粋: 作品の主ボタン。access を省くと type から決める（app は try、それ以外は visit）。 */
+export function primaryAction(data: WorkData): PrimaryAction {
+  const kind = data.access ?? (data.type === "app" ? "try" : "visit");
+  if (kind === "contact") return { kind };
+  return { kind, href: kind === "source" ? data.repo : data.url };
+}
 
 function compareWorks(a: Work, b: Work): number {
   const ao = a.data.order ?? Infinity;
@@ -47,6 +64,11 @@ export function buildWorks(
         throw new Error(`works/${slug}: missing required field "${key}" on the ja version`);
       }
     }
+    const action = primaryAction(e.data);
+    if (action.kind !== "contact" && !action.href) {
+      const field = action.kind === "source" ? "repo" : "url";
+      throw new Error(`works/${slug}: access "${action.kind}" needs "${field}" on the ja version`);
+    }
   }
 
   const all: Work[] = pairByLang(entries, lang, (base, override) => ({ ...base, ...override })).map((p) => ({
@@ -69,6 +91,7 @@ export function buildWorks(
   all.sort(compareWorks);
   for (const w of all) w.children.sort(compareWorks);
   const parents = all.filter((w) => !w.parentSlug);
-  const featured = all.filter((w) => w.data.featured);
+  // 子作品は親のすぐあとに並べる（子どうしの order が親の order と混ざらないように）
+  const featured = parents.flatMap((p) => [p, ...p.children]).filter((w) => w.data.featured);
   return { all, parents, featured: featured.length > 0 ? featured : parents.slice(0, 1) };
 }
