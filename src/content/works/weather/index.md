@@ -4,6 +4,7 @@ summary: 1 地点の天気予報を横長 1 画面に常時表示
 type: app
 url: https://ytx.github.io/simplePages/weather/
 thumbnail: ./thumb.png
+featured: true
 parent: simplepages
 order: 20
 published: 2026-05-20

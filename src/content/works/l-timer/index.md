@@ -4,6 +4,7 @@ summary: 講義用タイマー。講義と休憩の繰り返し、演習タイ�
 type: app
 url: https://ytx.github.io/simplePages/l_timer/
 thumbnail: ./thumb.png
+featured: true
 parent: simplepages
 order: 10
 published: 2026-05-10

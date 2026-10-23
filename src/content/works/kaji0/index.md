@@ -4,6 +4,7 @@ summary: 家事の記録と分担
 type: web
 url: https://kaji0.trusted-host.online/
 thumbnail: ./thumb.png
+featured: true
 order: 20
 published: 2026-04-01
 ---

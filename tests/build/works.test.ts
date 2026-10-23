@@ -25,3 +25,31 @@ test("en work page", () => {
   expect(h).toContain("Visit site");
   expect(h).toContain('hreflang="ja" href="https://ytx.github.io/works/green/"');
 });
+test("download work uses download label and keeps source link", () => {
+  const h = read("works/memo3/index.html");
+  expect(h).toContain("ダウンロード");
+  expect(h).toContain('href="https://xpenguin.biz/memo3/"');
+  expect(h).toContain("ソースコード");
+});
+test("source work links to GitHub once", () => {
+  const h = read("works/webarchive-server/index.html");
+  expect(h).toContain("GitHub で見る");
+  expect(h).not.toContain(">ソースコード<");
+});
+test("contact work has an encoded mail link and closed badge", () => {
+  const h = read("works/km-hub/index.html");
+  expect(h).toContain("お問い合わせ");
+  expect(h).toContain("data-mail=");
+  expect(read("works/index.html")).toContain("コード非公開");
+});
+test("no page or script exposes the contact address", () => {
+  const files = fs.readdirSync("dist", { recursive: true, encoding: "utf8" }).filter((f) => /\.(html|js|xml)$/.test(f));
+  const address = ["info", "xpenguin.biz"].join("@");
+  for (const f of files) {
+    const s = read(f);
+    expect(s, f).not.toContain(address);
+    expect(s, f).not.toContain("mailto:info");
+  }
+});
+test("work without thumbnail still has a card image", () =>
+  expect(read("works/index.html")).toMatch(/href="\/works\/sound-pi\/"[\s\S]*?<img/));
