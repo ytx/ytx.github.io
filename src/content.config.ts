@@ -17,6 +17,8 @@ const works = defineCollection({
       access: z.enum(WORK_ACCESS).optional(),
       url: z.url().optional(),
       repo: z.url().optional(),
+      appstore: z.url().optional(),
+      note: z.url().optional(),
       thumbnail: image().optional(),
       screenshots: z.array(image()).optional(),
       youtube: z.string().optional(),

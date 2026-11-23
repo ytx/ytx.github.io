@@ -3,21 +3,20 @@ import path from "node:path";
 import { expect, test } from "vitest";
 
 const read = (p: string) => fs.readFileSync(path.join("dist", p), "utf8");
-const has = (p: string) => fs.existsSync(path.join("dist", p));
-const withPosts = test.skipIf(!has("blog/car/maintenance/oil-change/index.html"));
 
 test("home shows featured, works", () => {
   const h = read("index.html");
   expect(h).toContain("simplePages");
   expect(h).toContain("/works/green/");
 });
-withPosts("home shows category pills", () => {
+test("home links to note magazines instead of the blog", () => {
   const h = read("index.html");
-  expect(h).toContain('data-group="car"');
-  expect(h).not.toContain('data-group="diy"');
+  expect(h).toContain("https://note.com/ytx/m/mf2b659b6b740");
+  expect(h).toContain("https://note.com/ytx/m/mbff238b62080");
+  expect(h).not.toContain('href="/blog/"');
 });
 test("home en", () => {
   const h = read("en/index.html");
-  expect(h).toContain("Recent posts");
+  expect(h).toContain("Development notes");
   expect(h).toContain('href="/en/works/"');
 });

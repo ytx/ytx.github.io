@@ -50,7 +50,9 @@ const showRepo = data.repo && primaryAction(data).kind !== "source";
     <p class="summary">{data.summary}</p>
     <p class="actions">
       <ActionLink class="btn" lang={lang} data={data} />
+      {data.appstore && <a class="btn btn-sub" href={data.appstore} target="_blank" rel="noopener">{t(lang, "work.appstore")}</a>}
       {showRepo && <a class="repo" href={data.repo} target="_blank" rel="noopener">{t(lang, "work.repo")}</a>}
+      {data.note && <a class="note" href={data.note} target="_blank" rel="noopener">{t(lang, "work.note")}</a>}
     </p>
     {data.thumbnail && <Image class="hero-img" src={data.thumbnail} alt="" width={1280} height={720} loading="eager" />}
     {data.youtube && <YouTube id={data.youtube} title={data.title} />}
@@ -115,6 +117,12 @@ const showRepo = data.repo && primaryAction(data).kind !== "source";
   }
   .btn:hover {
     opacity: 0.9;
+  }
+  .btn-sub {
+    padding: 8px 26px;
+    border: 2px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
   }
   .shots {
     display: flex;

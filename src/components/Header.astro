@@ -1,6 +1,6 @@
 ---
 import { t, type Lang } from "../i18n";
-import { homeUrl, worksUrl, blogUrl, aboutUrl } from "../lib/urls";
+import { homeUrl, worksUrl, aboutUrl } from "../lib/urls";
 import LangSwitch from "./LangSwitch.astro";
 interface Props {
   lang: Lang;
@@ -10,7 +10,6 @@ const { lang, alternate } = Astro.props;
 const path = Astro.url.pathname;
 const links = [
   { href: worksUrl(lang), label: t(lang, "nav.works") },
-  { href: blogUrl(lang), label: t(lang, "nav.blog") },
   { href: aboutUrl(lang), label: t(lang, "nav.about") },
 ];
 ---

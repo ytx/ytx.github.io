@@ -3,18 +3,18 @@ import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import SectionHead from "../components/SectionHead.astro";
 import WorkCard from "../components/WorkCard.astro";
-import CategoryPills from "../components/CategoryPills.astro";
+import NoteCard from "../components/NoteCard.astro";
 import { t, otherLang, type Lang } from "../i18n";
-import { blogUrl, homeUrl, worksUrl } from "../lib/urls";
+import { homeUrl, worksUrl } from "../lib/urls";
 import { getFeaturedWorks, getWorks } from "../lib/works";
-import { getPosts, latestPerParent } from "../lib/posts";
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const featured = await getFeaturedWorks(lang);
-const works = (await getWorks(lang)).slice(0, 8);
-const posts = await getPosts(lang);
+const allWorks = await getWorks(lang);
+const works = allWorks.slice(0, 8);
+const noteWorks = allWorks.filter((w) => w.data.note);
 ---
 <Base lang={lang} title={t(lang, "siteName")} alternate={homeUrl(otherLang(lang))}>
   <div class="container">
@@ -24,7 +24,13 @@ const posts = await getPosts(lang);
     <div class="grid">
       {works.map((work) => <WorkCard lang={lang} work={work} />)}
     </div>
-    <SectionHead title={t(lang, "blog.title")} sub={t(lang, "blog.sub")} moreHref={blogUrl(lang)} moreLabel={t(lang, "blog.all")} />
-    <CategoryPills lang={lang} groups={latestPerParent(posts, 6)} all={posts.slice(0, 6)} />
+    {noteWorks.length > 0 && (
+      <>
+        <SectionHead title={t(lang, "note.title")} sub={t(lang, "note.sub")} />
+        <div class="grid">
+          {noteWorks.map((w) => <NoteCard lang={lang} title={w.data.title} url={w.data.note!} />)}
+        </div>
+      </>
+    )}
   </div>
 </Base>

@@ -3,6 +3,8 @@ title: KAJI⭕️
 summary: 家事の記録と分担
 type: web
 url: https://kaji0.trusted-host.online/
+appstore: https://apps.apple.com/jp/app/apple-store/id6836195024?pt=129781324&ct=github2026&mt=8
+note: https://note.com/ytx/m/mbff238b62080
 thumbnail: ./thumb.png
 featured: true
 order: 20

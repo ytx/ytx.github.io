@@ -32,11 +32,13 @@
 
 ```md
 ---
-title: green（happy green tiles）
+title: Happy Green Tiles
 summary: タイルで管理する、やること・記録・タイマー
 type: web            # app / web / desktop / tool / device
 access: visit        # 省略可。try / visit / download / source / contact
 url: https://green.sv4.me/
+appstore: https://apps.apple.com/jp/app/…   # 省略可。作品ページに「App Store」ボタンを出す
+note: https://note.com/ytx/m/mf2b659b6b740   # 省略可。note のマガジン。作品ページとトップの note 節からリンクする
 thumbnail: ./thumb.png
 featured: true       # トップのキャッチに出す（どれも無ければ先頭 1 件）。子作品（parent 指定）でも使える
 order: 10            # 小さい順に並ぶ

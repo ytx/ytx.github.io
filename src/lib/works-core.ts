@@ -17,6 +17,10 @@ export type WorkData = {
   access?: WorkAccess;
   url?: string;
   repo?: string;
+  /** App Store の URL。作品ページに「App Store」ボタンを出す。 */
+  appstore?: string;
+  /** note のマガジンの URL。作品ページとトップの note 節からリンクする。 */
+  note?: string;
   thumbnail?: ImageMetadata;
   screenshots?: ImageMetadata[];
   youtube?: string;

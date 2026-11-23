@@ -1,0 +1,38 @@
+---
+import { t, type Lang } from "../i18n";
+interface Props {
+  lang: Lang;
+  title: string;
+  url: string;
+}
+const { lang, title, url } = Astro.props;
+---
+<a class="note-card" href={url} target="_blank" rel="noopener">
+  <span class="title">{title}</span>
+  <span class="label">{t(lang, "note.magazine")} <span aria-hidden="true">↗</span></span>
+</a>
+<style>
+  .note-card {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .note-card:hover {
+    transform: translateY(-2px);
+  }
+  .title {
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+  .label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+</style>

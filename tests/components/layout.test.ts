@@ -14,14 +14,15 @@ describe("Header", () => {
   test("has nav and lang switch (ja)", async () => {
     const html = await container.renderToString(Header, { props: { lang: "ja", alternate: "/en/" } });
     expect(html).toContain('href="/works/"');
-    expect(html).toContain('href="/blog/"');
+    expect(html).not.toContain('href="/blog/"');
     expect(html).toContain('href="/about/"');
     expect(html).toContain('href="/en/"');
     expect(html).toContain(">EN<");
   });
   test("en", async () => {
     const html = await container.renderToString(Header, { props: { lang: "en", alternate: "/" } });
-    expect(html).toContain('href="/en/blog/"');
+    expect(html).toContain('href="/en/works/"');
+    expect(html).not.toContain('href="/en/blog/"');
     expect(html).toContain("日本語");
   });
 });

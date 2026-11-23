@@ -1,5 +1,5 @@
 ---
-title: green (happy green tiles)
+title: Happy Green Tiles
 summary: Tiles for to-dos, logs and timers.
 ---
 

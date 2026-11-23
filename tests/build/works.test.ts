@@ -14,6 +14,20 @@ test("parent work shows children", () => {
   expect(h).toContain("/works/l-timer/");
   expect(h).toContain("使ってみる");
 });
+test("green and KAJI pages link to their note magazines", () => {
+  const g = read("works/green/index.html");
+  expect(g).toContain("<h1");
+  expect(g).toContain("Happy Green Tiles");
+  expect(g).toContain("https://note.com/ytx/m/mf2b659b6b740");
+  expect(read("works/kaji0/index.html")).toContain("https://note.com/ytx/m/mbff238b62080");
+  expect(read("en/works/kaji0/index.html")).toContain("https://note.com/ytx/m/mbff238b62080");
+  expect(read("works/simplepages/index.html")).not.toContain("note.com");
+});
+test("green and KAJI pages link to the App Store", () => {
+  expect(read("works/green/index.html")).toContain("https://apps.apple.com/jp/app/apple-store/id6833692541?pt=129781324&amp;ct=github2026&amp;mt=8");
+  expect(read("en/works/kaji0/index.html")).toContain("https://apps.apple.com/jp/app/apple-store/id6836195024?pt=129781324&amp;ct=github2026&amp;mt=8");
+  expect(read("works/simplepages/index.html")).not.toContain("apps.apple.com");
+});
 test.skipIf(!fs.existsSync("dist/blog/howto/simplepages-howto/index.html"))("parent work lists how-to posts", () =>
   expect(read("works/simplepages/index.html")).toContain("/blog/howto/simplepages-howto/"));
 test("child work has breadcrumb to parent", () =>

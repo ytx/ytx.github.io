@@ -1,8 +1,10 @@
 ---
-title: green（happy green tiles）
+title: Happy Green Tiles
 summary: タイルで管理する、やること・記録・タイマー
 type: web
 url: https://green.sv4.me/
+appstore: https://apps.apple.com/jp/app/apple-store/id6833692541?pt=129781324&ct=github2026&mt=8
+note: https://note.com/ytx/m/mf2b659b6b740
 thumbnail: ./thumb.png
 featured: true
 order: 10
